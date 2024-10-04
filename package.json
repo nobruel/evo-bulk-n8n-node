@@ -1,8 +1,8 @@
 {
-  "name": "n8n-nodes-via-cep",
-  "version": "1.0.51",
-  "description": "Consulta CEP no serviço ViaCEP para n8n",
-  "main": "dist/ViaCep.node.js",
+  "name": "n8n-nodes-evo-bulk",
+  "version": "1.0.02",
+  "description": "Envia mensagens em massa para o whatsapp atraves de uma integracao com o postgres e evolution",
+  "main": "dist/nodes/PostgresToEvolutionApi.node.js",
   "files": [
     "dist/**/*"
   ],
@@ -10,10 +10,17 @@
     "build": "tsc && gulp build:icons",  
     "prepare": "npm run build"
   },
-  "keywords": ["n8n-node", "viacep", "n8n"],
-  "author": "Seu Nome",
+  "keywords": [
+    "n8n-node",
+    "evolution",
+    "n8n",
+    "postgres",
+    "odesafiododigital"
+  ],
+  "author": "Bruno Daniel Afonso",
   "license": "MIT",
   "dependencies": {
+    "n8n-core": "^1.14.1",
     "n8n-workflow": "^0.151.0"
   },
   "devDependencies": {
@@ -23,7 +30,7 @@
   },
   "n8n": {
     "nodes": [
-      "./dist/ViaCep.node.js"
+      "./dist/nodes/PostgresToEvolutionApi.node.js"
     ]
   }
 }
