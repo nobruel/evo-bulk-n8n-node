@@ -1,4 +1,4 @@
-# evo-builk-n8n-node
+# evo-bulk-n8n-node
 
 Realiza envio em massa para o whatsapp utilizando a Evolution.
 
