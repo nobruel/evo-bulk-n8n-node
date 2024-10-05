@@ -4,11 +4,11 @@ import {
 } from 'n8n-workflow';
 
 export class EvolutionApiCredentials implements ICredentialType {
-    name = 'EvolutionApiCredentials';
+    name = 'evolutionApiCredentials';
     displayName = 'Evolution API Credentials';
     properties: INodeProperties[] = [
         {
-            displayName: 'Host',
+            displayName: 'URL',
             name: 'host',
             type: 'string',
             default: '',

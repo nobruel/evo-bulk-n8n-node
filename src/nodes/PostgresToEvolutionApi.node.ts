@@ -6,13 +6,15 @@ import {
   IExecuteFunctions
 } from 'n8n-workflow';
 
+import { Client } from 'pg'; // Importar o cliente 'pg' para PostgreSQL
+
 export class PostgresToEvolutionApi implements INodeType {
   description: INodeTypeDescription = {
     displayName: 'Postgres to Evolution API',
     name: 'postgresToEvolutionApi',
     group: ['transform'],
     version: 1,
-    icon: 'file:dist/assets/logo-bulk-message.jpg',
+    icon: 'file:logo-bulk-message.png',
     description: 'Query PostgreSQL and send message to Evolution API',
     defaults: {
       name: 'PostgresToEvolutionApi',
@@ -22,13 +24,13 @@ export class PostgresToEvolutionApi implements INodeType {
     outputs: ['main'],
     credentials: [
       {
-        name: 'PostgresCredentials',
-        required: true,
+        name: "postgresCredentials",
+        required: false
       },
       {
-        name: 'EvolutionApiCredentials',
-        required: true,
-      },
+        name: "evolutionApiCredentials",
+        required: false
+      }
     ],
     properties: [
       {
@@ -53,14 +55,44 @@ export class PostgresToEvolutionApi implements INodeType {
     const postgresQuery = this.getNodeParameter('postgresQuery', 0) as string;
     const message = this.getNodeParameter('evolutionMessage', 0) as string;
 
-    const credentialsPostgres = await this.getCredentials('PostgresCredentials');
-    const credentialsEvolution = await this.getCredentials('EvolutionApiCredentials');
+    const credentialsPostgres = await this.getCredentials('postgresCredentials');
+    const credentialsEvolution = await this.getCredentials('evolutionApiCredentials');
 
-    // Postgres query logic here
-    // You can use any Postgres client, like 'pg', but n8n provides database nodes for such tasks.
-    // Fetch data from the database, and use that data in the next step if necessary.
+    // Casting dos valores obtidos nas credenciais para os tipos corretos
+    const postgresUser = credentialsPostgres.user as string;
+    const postgresHost = credentialsPostgres.host as string;
+    const postgresDatabase = credentialsPostgres.database as string;
+    const postgresPassword = credentialsPostgres.password as string;
+    const postgresPort = credentialsPostgres.port ? parseInt(credentialsPostgres.port as string, 10) : 5432; // Converte para número
 
-    // Evolution API call logic here
+    // Configuração do cliente PostgreSQL
+    const client = new Client({
+      user: postgresUser,
+      host: postgresHost,
+      database: postgresDatabase,
+      password: postgresPassword,
+      port: postgresPort,
+    });
+
+    await client.connect(); // Conectar ao banco
+
+    // Executar a query que lista todas as tabelas
+    const query = `SELECT table_name FROM information_schema.tables WHERE table_schema='public';`;
+    let tables;
+    try {
+      const result = await client.query(query);
+      tables = result.rows;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new NodeOperationError(this.getNode(), `Error fetching tables: ${error.message}`);
+      } else {
+        throw new NodeOperationError(this.getNode(), `Unknown error fetching tables`);
+      }
+    } finally {
+      await client.end(); // Fechar a conexão
+    }
+
+    // Lógica da API Evolution
     const apiUrl = `${credentialsEvolution.host}/${credentialsEvolution.instance}/post-endpoint`;
     const apiKey = credentialsEvolution.apikey;
 
@@ -75,9 +107,12 @@ export class PostgresToEvolutionApi implements INodeType {
 
     // const response = await this.helpers.request(apiUrl, options);
 
-    const response = { author: "Bruno", resposta: "Nenhuma por enquanto" }
+    const response = {
+      message: 'Mensagem enviada para Evolution API',
+      tables, // Listar as tabelas
+    };
 
-    // Return the response from the API
-    return [this.helpers.returnJsonArray({ ...response })];
+    // Retornar a resposta em formato JSON
+    return [this.helpers.returnJsonArray({ response })];
   }
 }

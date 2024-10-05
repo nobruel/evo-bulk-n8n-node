@@ -4,7 +4,7 @@ import {
 } from 'n8n-workflow';
 
 export class PostgresCredentials implements ICredentialType {
-    name = 'PostgresCredentials';
+    name = 'postgresCredentials';
     displayName = 'Postgres Credentials';
     properties: INodeProperties[] = [
         {

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostgresCredentials = void 0;
 class PostgresCredentials {
     constructor() {
-        this.name = 'PostgresCredentials';
+        this.name = 'postgresCredentials';
         this.displayName = 'Postgres Credentials';
         this.properties = [
             {
