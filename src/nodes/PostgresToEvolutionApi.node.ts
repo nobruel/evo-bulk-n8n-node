@@ -12,6 +12,7 @@ export class PostgresToEvolutionApi implements INodeType {
         name: 'postgresToEvolutionApi',
         group: ['transform'],
         version: 1,
+        icon: 'file:dist/assets/logo-bulk-message.jpg',
         description: 'Query PostgreSQL and send message to Evolution API',
         defaults: {
             name: 'PostgresToEvolutionApi',
