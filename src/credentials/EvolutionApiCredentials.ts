@@ -40,7 +40,7 @@ export class EvolutionApiCredentials implements ICredentialType {
         type: 'generic',
         properties: {
             headers: {
-                apikey: '={{$credentials.apikey}}', 
+                apikey: '={{$credentials.apiKey}}', 
             },
         },
     };
