@@ -1,10 +1,10 @@
 {
   "name": "n8n-nodes-evo-bulk",
-  "version": "1.0.044",
+  "version": "1.0.048",
   "description": "Envia mensagens em massa para o whatsapp atraves de uma integracao com o postgres e evolution",
   "main": "dist/nodes/PostgresToEvolutionApi.node.js",
   "files": [
-    "dist/**/*"
+    "dist"
   ],
   "scripts": {
     "build": "tsc && gulp build:icons",  
@@ -34,7 +34,7 @@
     ],
     "credentials": [
       "dist/credentials/EvolutionApiCredentials.js",
-      "dist/credentials/EvolutionApiCredentials.js"
+      "dist/credentials/PostgresCredentials.js"
     ]
   }
 }

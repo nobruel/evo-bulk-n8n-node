@@ -54,8 +54,8 @@ class PostgresToEvolutionApi {
         // You can use any Postgres client, like 'pg', but n8n provides database nodes for such tasks.
         // Fetch data from the database, and use that data in the next step if necessary.
         // Evolution API call logic here
-        const apiUrl = `${credentialsEvolution.apiUrl}/${credentialsEvolution.instance}/post-endpoint`;
-        const apiKey = credentialsEvolution.apiKey;
+        const apiUrl = `${credentialsEvolution.host}/${credentialsEvolution.instance}/post-endpoint`;
+        const apiKey = credentialsEvolution.apikey;
         const options = {
             method: 'POST',
             headers: {
@@ -67,7 +67,7 @@ class PostgresToEvolutionApi {
         // const response = await this.helpers.request(apiUrl, options);
         const response = { author: "Bruno", resposta: "Nenhuma por enquanto" };
         // Return the response from the API
-        return [this.helpers.returnJsonArray({ response })];
+        return [this.helpers.returnJsonArray({ ...response })];
     }
 }
 exports.PostgresToEvolutionApi = PostgresToEvolutionApi;

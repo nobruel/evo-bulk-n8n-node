@@ -5,52 +5,26 @@ class EvolutionApiCredentials {
     constructor() {
         this.name = 'EvolutionApiCredentials';
         this.displayName = 'Evolution API Credentials';
-        this.documentationUrl = 'https://docs.evolutionapi.com';
         this.properties = [
             {
-                displayName: 'API URL',
-                name: 'apiUrl',
+                displayName: 'Host',
+                name: 'host',
                 type: 'string',
                 default: '',
-                required: true,
             },
             {
                 displayName: 'Instance',
                 name: 'instance',
                 type: 'string',
-                default: '',
-                required: true,
+                default: 5432,
             },
             {
-                displayName: 'API Key',
-                name: 'apiKey',
+                displayName: 'Api KEY',
+                name: 'apikey',
                 type: 'string',
-                typeOptions: {
-                    password: true,
-                },
                 default: '',
-                required: true,
             },
         ];
-        this.authenticate = {
-            type: 'generic',
-            properties: {
-                headers: {
-                    apikey: '={{$credentials.apiKey}}',
-                },
-            },
-        };
-        // Adicionando o método de teste de credenciais
-        this.test = {
-            request: {
-                baseURL: '={{$credentials["apiUrl"].startsWith("http") ? $credentials["apiUrl"] : "https://" + $credentials["apiUrl"]}}',
-                url: '/instance/fetchInstances',
-                method: 'GET',
-                headers: {
-                    apikey: '={{$credentials.apikey}}',
-                },
-            },
-        };
     }
 }
 exports.EvolutionApiCredentials = EvolutionApiCredentials;
